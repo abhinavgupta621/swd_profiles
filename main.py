@@ -10,14 +10,30 @@ import os, ssl
 import csv
 import pandas as pd 
 import timeit
+import sys
+import time
 
+def progressbar():
+	def spinning_cursor():
+		while True:
+			for cursor in '|/-\\':
+				yield cursor
+
+	spinner = spinning_cursor()
+	
+	for _ in range(50):
+		sys.stdout.write(next(spinner))
+		sys.stdout.flush()
+		time.sleep(0.1)
+		sys.stdout.write('\b')
+	
 start = timeit.default_timer()
-
+progressbar()
 ssl._create_default_https_context = ssl._create_unverified_context
-
 url='https://swd.bits-goa.ac.in/media/'
 
 tables = pd.read_html("https://swd.bits-goa.ac.in/search1/?name=&bitsId=2&branch=&hostel=&room=")
+
 output=list(tables[0]['Student ID'])
 output.sort(reverse=True)
 if not os.path.isdir('Images'):
@@ -36,4 +52,3 @@ for item in output:
 stop = timeit.default_timer()
 print('/r')
 print('Time taken:',stop-start)
-
