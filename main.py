@@ -26,5 +26,5 @@ for item in data:
     except:
         continue
 stop = timeit.default_timer()
-print('/r')
+print('\r')
 print('Time taken:',stop-start)
